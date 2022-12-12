@@ -5,6 +5,9 @@
 #include <iostream>
 #include <random>
 #include <cmath>
+#include <boost/multiprecision/cpp_int.hpp>
+#include <limits>
+using namespace boost::multiprecision;
 
 bool is_prime(unsigned long long int num)
 {
@@ -69,12 +72,16 @@ bool is_prime_sieve_eratosthenes(unsigned int num)
 int main()
 {
 	unsigned int numb = 1;
+	int128_t mybignum = 18446744073709551615;
+	std::cout << mybignum % 13 << std::endl;
+
+	std::cout << std::numeric_limits<unsigned long long int>::max() << std::endl;
 	while (numb)
 	{
 		std::cin >> numb;
 		std::cout << is_prime(numb) << std::endl;
 		std::cout << is_prime_miller_rabin(numb, 100) << std::endl;
-		std::cout << is_prime_sieve_eratosthenes(numb) << std::endl;
+		//std::cout << is_prime_sieve_eratosthenes(numb) << std::endl;
 	}
 }
 
