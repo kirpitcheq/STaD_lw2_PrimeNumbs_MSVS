@@ -7,7 +7,11 @@
 #include <cmath>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <limits>
-using namespace boost::multiprecision;
+//using namespace boost::multiprecision;
+namespace mp = boost::multiprecision;
+#define US_TP mp::int1024_t
+US_TP power_mod(US_TP value, US_TP power, US_TP mod);
+
 
 bool is_prime(unsigned long long int num)
 {
@@ -18,61 +22,83 @@ bool is_prime(unsigned long long int num)
 	}
 	return true;
 }
-
-bool is_prime_miller_rabin(unsigned long long int num, int rounds)
+//#define DEBUG_PRINT
+bool is_prime_miller_rabin(US_TP num, size_t rounds)
 {
-	if (num == 2 || num == 3)
-		return true;
-	if (num % 2 == 0 || num < 2)
+	if (num <= 3) return true;
+	if (num == 0) return false;
+	/*
+	
+	if (num % 2 == 0 || num < 2 || num % 3 == 0)
 		return false;
-	unsigned long long int d = num - 1;
-	int s = 0;
+	*/
+	US_TP d = num - 1;
+	US_TP s = 0;
 	while (d % 2 != 0) // n-1 = 2^s * d get
 	{
 		d /= 2;
 		s++;
 	}
+	if (d == 0)
+		d = 1;
+#ifdef DEBUG_PRINT
+	std::cout << "d = " << d << std::endl;
+	std::cout << "s = " << s << std::endl;
+#endif
 	srand(time(NULL));
 	for (auto i = 0; i < rounds; i++)
 	{
-		unsigned long long int rand_num = 0;
+		US_TP rand_num = 0;
 		while (rand_num < 2 || rand_num > num - 2)
-			rand_num = rand() % (num - 2);
-		unsigned long long int a_pow_d_mod_n = pow(rand_num, d);
-		a_pow_d_mod_n %= num;
+			rand_num = rand() % (num);
+		US_TP a_pow_d_mod_n = power_mod(rand_num, d, num);
+#ifdef DEBUG_PRINT
+		std::cout << "rand_num = " << rand_num << std::endl;
+		std::cout << "a_pow_d_mod_n = " << a_pow_d_mod_n << std::endl;
+#endif
+		if (a_pow_d_mod_n == 1)
+			continue;
+		//a_pow_d_mod_n %= num;
+		if (s == 0)
+			return false;
 		for (auto i = 0; i < s; i++)
 		{
-			auto x = (a_pow_d_mod_n * a_pow_d_mod_n) % num;
-			if (x == 1 && x != 1 && x != num - 1)
+			unsigned long long int two_pow_s = pow(2, i);
+			US_TP two_pow_s_mul_d = (US_TP)two_pow_s * d;
+			US_TP x = power_mod(rand_num, two_pow_s_mul_d, num);
+			if (x != num - 1)
 				return false;
-			if (a_pow_d_mod_n != 1)
-				return false;
+			else
+				break;
 		}
-		return true;
 	}
-
 	return true; //Может возвращать вероятность?
 }
-
-bool is_prime_sieve_eratosthenes(unsigned int num)
+US_TP power_mod(US_TP value, US_TP power, US_TP mod)
 {
-	bool* crossed_numbs = new bool[num + 1] {}; //init with false
-	for (auto i = 2; i <= num; i++)
+	US_TP res = 1;
+	US_TP pow_res = 0;
+	while (pow_res < power)
 	{
-		if (crossed_numbs[i])
-			continue;
-		for (auto j = i + i; j <= num; j += i)
-			crossed_numbs[j] = true;
+		US_TP pow_res_1 = 2;
+		US_TP res1 = value;
+		while (pow_res + pow_res_1 <= power)
+		{
+			res1 *= res1;
+			res1 %= mod;
+			pow_res_1 *= 2;
+		}
+		pow_res_1 /= 2;
+		res = (res * res1) % mod;
+		pow_res += pow_res_1;
 	}
-	if (crossed_numbs[num])
-		return false;
-	return true;
+	return res % mod;
 }
 
 int main()
 {
-	unsigned int numb = 1;
-	int128_t mybignum = 18446744073709551615;
+	unsigned long long int numb = 1;
+	mp::int128_t mybignum = 18446744073709551615;
 	std::cout << mybignum % 13 << std::endl;
 
 	std::cout << std::numeric_limits<unsigned long long int>::max() << std::endl;
@@ -80,8 +106,7 @@ int main()
 	{
 		std::cin >> numb;
 		std::cout << is_prime(numb) << std::endl;
-		std::cout << is_prime_miller_rabin(numb, 100) << std::endl;
-		//std::cout << is_prime_sieve_eratosthenes(numb) << std::endl;
+		std::cout << is_prime_miller_rabin(numb, 100) << std::endl << std::endl;
 	}
 }
 
