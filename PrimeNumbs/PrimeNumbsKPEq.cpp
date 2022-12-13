@@ -2,7 +2,7 @@
 
 bool is_prime(unsigned long long int num)
 {
-	bool print_percent = true;
+	bool print_percent = false;
 	//unsigned short div_numbs = (unsigned short)((double)num / (double) std::numeric_limits<unsigned long long int>::max()) * 100;
 	unsigned short div_numbs = 0;
 	unsigned long long int temp = num;
