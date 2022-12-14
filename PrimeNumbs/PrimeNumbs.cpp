@@ -86,19 +86,21 @@ static void GBM_PrimeSimple(benchmark::State& state) {
 	for (auto _ : state) {
 		benchmark::DoNotOptimize(is_prime(state.range(0)));
 		benchmark::ClobberMemory();
+		//benchmark::ClearRegisteredBenchmarks();
+		//is_prime(state.range(0));
 	}
 }
 static void GBM_PrimeMilRab(benchmark::State& state) {
 
 	for (auto _ : state) {
-		benchmark::DoNotOptimize(is_prime_miller_rabin(state.range(0),10));
+		benchmark::DoNotOptimize(is_prime_miller_rabin(state.range(0)));
 		benchmark::ClobberMemory();
 	}
 }
 static void GBM_PrimeMilRabOptim(benchmark::State& state) {
 
 	for (auto _ : state) {
-		benchmark::DoNotOptimize(is_prime_miller_rabin_optimize(state.range(0), 10));
+		benchmark::DoNotOptimize(is_prime_miller_rabin_optimize(state.range(0)));
 		benchmark::ClobberMemory();
 	}
 }
@@ -143,6 +145,55 @@ unsigned char bit_setter = 30;
 											Arg(bit_select_pl_one(bit_setter--))->Arg(bit_select_pl_one(bit_setter--))-> \
 											Arg(bit_select_pl_one(bit_setter--))->Arg(bit_select_pl_one(bit_setter--))-> \
 											Arg(bit_select_pl_one(bit_setter--))
+#define FROM_16BIT_PLUS_1_TO_30BIT_PLUS_1_2	Args({ 0,bit_select_pl_one(bit_setter--) })
+enum PrimeDefFunction { SIMPLE, MIL_RAB, MIL_RAB_OPT };
+static void GBM_ItPrimeBench(benchmark::State& state) {
+	unsigned long long check_value = 0;
+	switch (state.range(0))
+	{
+	case -30:
+		check_value = SET_30BITS;
+		break;
+	case -31:
+		check_value = SET_31BITS;
+		break;
+	case -311:
+		check_value = TO_31BIT_PLUS_1;
+		break;
+	case -321:
+		check_value = TO_32BIT_PLUS_1;
+		break;
+	default:
+		check_value = state.range(0);
+		break;
+	}
+
+	switch (state.range(1))
+	{
+	case 1:
+		for (auto _ : state) {
+			state.SetLabel("MillerRabin");
+			benchmark::DoNotOptimize(is_prime_miller_rabin(check_value));
+			benchmark::ClobberMemory();
+		}
+		break;
+	case 2:
+		for (auto _ : state) {
+			state.SetLabel("MillerRabinOprtimize");
+			benchmark::DoNotOptimize(is_prime_miller_rabin_optimize(check_value));
+			benchmark::ClobberMemory();
+		}
+		break;
+	default:
+		for (auto _ : state) {
+			state.SetLabel("BruteForce");
+			benchmark::DoNotOptimize(is_prime(check_value));
+			benchmark::ClobberMemory();
+		}
+		break;
+	}
+	
+}
 static void GBM_PrimeSimple_30BITS(benchmark::State& state) {
 	for (auto _ : state) {
 
@@ -169,12 +220,24 @@ static void GBM_PrimeSimple_32BIT_PLUS_ONE(benchmark::State& state) {
 		benchmark::ClobberMemory();
 	}
 }
+//#define BENCH_B_1
+#define BENCH_B_2_2
+
+#ifdef BENCH_B_1
 BENCHMARK(GBM_PrimeSimple)->FROM_15BITS_TO_29BITS;
-BENCHMARK(GBM_PrimeSimple_30BITS)->ArgName(std::to_string(SET_30BITS))->Arg(30);
+//BENCHMARK(GBM_PrimeSimple_30BITS)->ArgName(std::to_string(SET_30BITS))->Arg(30);
 BENCHMARK(GBM_PrimeSimple_31BITS)->ArgName(std::to_string(SET_31BITS))->Arg(31);
+#endif
+#ifdef BENCH_B_2
 BENCHMARK(GBM_PrimeSimple)->FROM_16BIT_PLUS_1_TO_30BIT_PLUS_1;
 BENCHMARK(GBM_PrimeSimple_31BIT_PLUS_ONE)->ArgName(std::to_string(TO_31BIT_PLUS_1))->Arg(31);
 BENCHMARK(GBM_PrimeSimple_32BIT_PLUS_ONE)->ArgName(std::to_string(TO_32BIT_PLUS_1))->Arg(32);
+#endif
+#ifdef BENCH_B_2_2
+BENCHMARK(GBM_ItPrimeBench)->FROM_16BIT_PLUS_1_TO_30BIT_PLUS_1_2;
+//BENCHMARK(GBM_PrimeSimple_31BIT_PLUS_ONE)->ArgName(std::to_string(TO_31BIT_PLUS_1))->Arg(31);
+//BENCHMARK(GBM_PrimeSimple_32BIT_PLUS_ONE)->ArgName(std::to_string(TO_32BIT_PLUS_1))->Arg(32);
+#endif
 //BENCHMARK(GBM_PrimeSimple)->RangeMultiplier(2)->Range(FROM_16BIT_PLUS_1, TO_32BIT_PLUS_1);
 //BENCHMARK(GBM_PrimeMilRab)->Arg( 7 << 16)->Arg(7 << 17)->Arg(7 << 18)->Arg(7 << 19)->Arg(
 	//7 << 20)->Arg(7 << 21)->Arg(7 << 22)->Arg(7 << 23)->Arg(7 << 24)->Arg(7 << 25)->Arg(7 << 26)->Arg(7 << 27);

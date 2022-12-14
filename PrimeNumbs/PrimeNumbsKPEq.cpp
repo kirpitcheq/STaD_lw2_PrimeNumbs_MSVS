@@ -1,5 +1,7 @@
 #include "PrimeNumbsKPEq.h"
 
+//#define WITH_PRINT_ENUMPRIME
+#ifdef WITH_PRINT_ENUMPRIME
 bool is_prime(unsigned long long int num)
 {
 	bool print_percent = false;
@@ -16,8 +18,9 @@ bool is_prime(unsigned long long int num)
 
 	if (!div_numbs)
 		print_percent = false;
-	unsigned long long int* percents_left = new unsigned long long int[div_numbs] {};
+	unsigned long long int* percents_left = NULL;
 	if (print_percent)
+		percents_left = new unsigned long long int[div_numbs] {};
 		for (size_t i = 1; i < div_numbs - 1; i++)
 			percents_left[i] = (num) * (double)((double)i / (double)(div_numbs - 1));
 		percents_left[div_numbs - 1] = num;
@@ -33,14 +36,29 @@ bool is_prime(unsigned long long int num)
 		if (num % i == 0)
 		{
 			if (print_percent)
+			{
 				std::cout << "100%" << std::endl;
+				delete[] percents_left;
+			}
 			return false;
 		}
 	}
 	if (print_percent)
+	{
 		std::cout << "100%" << std::endl;
+		delete[] percents_left;
+	}
 	return true;
 }
+#else
+bool is_prime(unsigned long long int num)
+{
+	for (size_t i = 2; i < num; i++)
+		if (num % i == 0)
+			return false;
+	return true;
+}
+#endif
 //#define DEBUG_PRINT
 bool is_prime_miller_rabin(US_TP num, size_t rounds)
 {
@@ -101,6 +119,12 @@ bool is_prime_miller_rabin(US_TP num, size_t rounds)
 	return true;
 }
 
+bool is_prime_miller_rabin(US_TP num)
+{
+	size_t rounds = size_t(std::log2((double)num)) + 1;
+	return is_prime_miller_rabin(num, rounds);
+}
+
 #define OPTIMIZE_RABIN
 #ifdef OPTIMIZE_RABIN
 bool is_prime_miller_rabin_optimize(US_TP num, size_t rounds)
@@ -147,6 +171,11 @@ bool is_prime_miller_rabin_optimize(US_TP num, size_t rounds)
 		else return false;
 	}
 	return true; //Может возвращать вероятность?
+}
+bool is_prime_miller_rabin_optimize(US_TP num)
+{
+	size_t rounds = size_t(std::log2((double)num)) + 1;
+	return is_prime_miller_rabin_optimize(num, rounds);
 }
 #endif
 
