@@ -51,9 +51,9 @@ bool is_prime(unsigned long long int num)
 	return true;
 }
 #else
-bool is_prime(unsigned long long int num)
+bool is_prime(US_TP num)
 {
-	for (size_t i = 2; i < num; i++)
+	for (US_TP i = 2; i < num; i++)
 		if (num % i == 0)
 			return false;
 	return true;
