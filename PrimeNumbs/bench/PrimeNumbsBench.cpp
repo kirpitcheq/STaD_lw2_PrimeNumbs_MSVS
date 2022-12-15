@@ -3,7 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <cmath>
-#include "PrimeNumbsKPEq.h"
+#include "../PrimeNumbsKPEq.h"
 #include "benchmark/benchmark.h"
 
 unsigned long long global_big_random = 0;
@@ -72,14 +72,18 @@ static void GenerateRandomFrom2Pow32To2Pow64(benchmark::internal::Benchmark *b)
 
 // USE DEFINE FOR TURN NEEDED BENCH
 #define BENCH_A
-
 // BENCHMARKS ARE DOWN
 #ifdef BENCH_A
-#define BENCH_A_3
+
+#define BENCH_A_GENERAL
+// USE DEFINE FOR TURN NEEDED BENCH
+unsigned long long start_from = 0;
+int threads_count = 16;
+
 #define TO_16BIT_PLUS1 (1 << 16) + 1
 static void from0_to2pow16plus1(benchmark::internal::Benchmark *b)
 {
-#ifdef BENCH_A_1;
+#ifdef BENCH_A_1
 	int i = 0;
 #elif defined BENCH_A_2
 	int i = 1;
@@ -89,15 +93,15 @@ static void from0_to2pow16plus1(benchmark::internal::Benchmark *b)
 	for (int i = 0; i < 3; i++)
 	{
 #endif
-	for (int j = 30000; j <= TO_16BIT_PLUS1; ++j)
+	for (int j = start_from; j <= TO_16BIT_PLUS1; ++j)
 		b->Args({j, i});
-#ifdef BENCH_A_GENERAL;
+#ifdef BENCH_A_GENERAL
 }
 #endif
 }
 BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16plus1)
 #ifdef BENCH_A_GENERAL
-	->Threads(8)
+	->Threads(threads_count)
 #endif
 	;
 #endif
