@@ -14,7 +14,6 @@ int main()
 		std::cout << is_prime_miller_rabin_optimize(numb, 100) << std::endl << std::endl;
 	}
 }
-#endif
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
 
