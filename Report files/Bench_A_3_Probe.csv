@@ -1,0 +1,30 @@
+12/15/22 13:04:26
+Running PrimeNumbs_Bench_A_3.exe
+Run on (12 X 3394 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x6)
+  L1 Instruction 65K (x6)
+  L2 Unified 524K (x6)
+  L3 Unified 8388K (x2)
+name,iterations,real_time,cpu_time,time_unit,bytes_per_second,items_per_second,label,error_occurred,error_message
+"GBM_ItPrimeBench/0/2",8960000,113.934,102.888,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/1/2",16592593,52.0065,48.0259,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/2/2",14451613,49.1175,46.4914,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/3/2",10000000,52.1668,50,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/4/2",10000000,61.6774,62.5,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/5/2",112000,7737.56,7393.97,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/6/2",8960000,63.8604,64.5229,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/7/2",74667,7658.44,7324.19,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/8/2",11200000,60.2189,59.9888,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/9/2",11200000,88.2766,83.7054,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/10/2",13380267,69.8433,66.5626,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/11/2",74667,8885.07,7324.19,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/12/2",11200000,61.9889,59.9888,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/13/2",74667,9780.83,10253.9,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/14/2",8960000,62.1149,62.779,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/15/2",7466667,80.9528,77.4275,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/16/2",11200000,64.1055,54.4085,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/17/2",56000,12501.3,11718.8,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/18/2",12948645,56.3867,54.301,ns,,,"MillerRabinOprtimize",,
+"GBM_ItPrimeBench/19/2",64000,10077.4,9765.62,ns,,,"MillerRabinOprtimize: this is a Prime!!!",,
+"GBM_ItPrimeBench/20/2",8960000,69.4989,68.0106,ns,,,"MillerRabinOprtimize",,

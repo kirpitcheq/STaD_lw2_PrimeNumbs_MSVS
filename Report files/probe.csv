@@ -1,0 +1,79 @@
+{
+  "context": {
+    "date": "12/14/22 21:21:37",
+    "host_name": "KIRKIT",
+    "executable": "PrimeNumbs.exe",
+    "num_cpus": 12,
+    "mhz_per_cpu": 3394,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 65536000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 524288000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 8388608000,
+        "num_sharing": 6
+      }
+    ],
+    "load_avg": [],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "GBM_ItPrimeBench/-1/0",
+      "run_name": "GBM_ItPrimeBench/-1/0",
+      "run_type": "iteration",
+      "repetitions": 0,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 32000000,
+      "real_time": 2.3951749999923777e+01,
+      "cpu_time": 2.4414062500000000e+01,
+      "time_unit": "ns",
+      "label": "BruteForce check this 5208260939417390606"
+    },
+    {
+      "name": "GBM_ItPrimeBench/-1/1",
+      "run_name": "GBM_ItPrimeBench/-1/1",
+      "run_type": "iteration",
+      "repetitions": 0,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 2800,
+      "real_time": 2.2388835714212162e+05,
+      "cpu_time": 2.2321428571428571e+05,
+      "time_unit": "ns",
+      "label": "MillerRabin check this 5208260939417390606"
+    },
+    {
+      "name": "GBM_ItPrimeBench/-1/2",
+      "run_name": "GBM_ItPrimeBench/-1/2",
+      "run_type": "iteration",
+      "repetitions": 0,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 4480000,
+      "real_time": 1.7379645089233367e+02,
+      "cpu_time": 1.7438616071428572e+02,
+      "time_unit": "ns",
+      "label": "MillerRabinOprtimize check this 5208260939417390606"
+    }
+  ]
+}

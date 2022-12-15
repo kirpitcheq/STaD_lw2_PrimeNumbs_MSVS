@@ -1,0 +1,12 @@
+12/15/22 12:47:55
+Running PrimeNumbs_Bench_C.exe
+Run on (12 X 3394 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x6)
+  L1 Instruction 65K (x6)
+  L2 Unified 524K (x6)
+  L3 Unified 8388K (x2)
+name,iterations,real_time,cpu_time,time_unit,bytes_per_second,items_per_second,label,error_occurred,error_message
+"GBM_ItPrimeBench/-1/0",11200000,61.4489,57.1987,ns,,,"BruteForce check this 5446937957405229267",,
+"GBM_ItPrimeBench/-1/1",1445,474061,464965,ns,,,"MillerRabin check this 5446937957405229267",,
+"GBM_ItPrimeBench/-1/2",4072727,138.709,134.277,ns,,,"MillerRabinOprtimize check this 5446937957405229267",,
