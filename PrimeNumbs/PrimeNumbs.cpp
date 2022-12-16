@@ -57,38 +57,7 @@ static void GBM_ItPrimeBench(benchmark::State& state) {
 	state.SetLabel(LabelNameOut);
 }
 
-#define MAX_UINT64 std::numeric_limits<unsigned long long>::max() 
-static void GenerateRandomFrom2Pow32To2Pow64(benchmark::internal::Benchmark* b)
-{
-	std::mt19937 mt;
-	mt.seed(time(NULL));
-	std::uniform_int_distribution<unsigned long long> ui((unsigned long long)std::pow(2, 32), MAX_UINT64);
-	global_big_random = ui(mt);
-}
-
-#define BENCH_A
-
-#ifdef BENCH_A
-#define BENCH_A_3
-#define TO_16BIT_PLUS1 (1<<16) + 1
-static void from0_to2pow16plus1(benchmark::internal::Benchmark* b) {
-#ifdef BENCH_A_1;
-	int i = 0;
-#elif defined  BENCH_A_2
-	int i = 1;
-#elif defined BENCH_A_3
-	int i = 2;
-#elif defined BENCH_A_GENERAL
-	for (int i = 0; i < 3; i++)
-	{
-#endif
-		for (int j = 30000; j <= TO_16BIT_PLUS1; ++j)
-			b->Args({ j, i });
-#ifdef BENCH_A_GENERAL;
-	}
-#endif
-}
-
+//BENCH_1st
 static void from0_to2pow16_brute_quart1(benchmark::internal::Benchmark* b) {
 	for (int i = 0; i < 16384; i++)
 		b->Args({ i, 0 });
@@ -154,11 +123,7 @@ BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart1)->ArgName("m
 BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart2)->ArgName("miller_optim_2pow_0_16_qua2")->UseRealTime();
 BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart3)->ArgName("miller_optim_2pow_0_16_qua3")->UseRealTime();
 BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart4)->ArgName("miller_optim_2pow_0_16_qua4")->UseRealTime();
-//->Threads(8)
-;
-#endif
-
-#ifdef BENCH_B
+//BENCH_2nd
 static void two_pow16minus1_to_pow32minus1(benchmark::internal::Benchmark* b) {
 	for (int i = 0; i < 3; i++)
 	{
@@ -173,14 +138,23 @@ static void two_pow16plus1_to_pow32plus1(benchmark::internal::Benchmark* b) {
 			b->Args({ (long long)std::pow(2,j) + 1, i });
 	}
 }
+BENCHMARK(GBM_ItPrimeBench)->Apply(two_pow16minus1_to_pow32minus1)->ArgName("two_pow16minus1_to_pow32minus1");
+BENCHMARK(GBM_ItPrimeBench)->Apply(two_pow16plus1_to_pow32plus1)->ArgName("two_pow16plus1_to_pow32plus1");
+//BENCH_3rd
+#define MAX_UINT64 std::numeric_limits<unsigned long long>::max() 
+static void GenerateRandomFrom2Pow32To2Pow64(benchmark::internal::Benchmark* b)
+{
+	std::mt19937 mt;
+	mt.seed(time(NULL));
+	std::uniform_int_distribution<unsigned long long> ui((unsigned long long)std::pow(2, 32), MAX_UINT64);
+	global_big_random = ui(mt);
+}
+BENCHMARK(GBM_ItPrimeBench)->Apply(GenerateRandomFrom2Pow32To2Pow64)
+	->Args({ -1, 0 })
+	->Args({ -1, 1 })
+	->Args({ -1, 2 })
+	->ArgName("random_big");
 
-BENCHMARK(GBM_ItPrimeBench)->Apply(two_pow16minus1_to_pow32minus1);
-BENCHMARK(GBM_ItPrimeBench)->Apply(two_pow16plus1_to_pow32plus1);
-#endif
-
-#ifdef BENCH_C
-BENCHMARK(GBM_ItPrimeBench)->Apply(GenerateRandomFrom2Pow32To2Pow64)->Args({ -1, 0 })->Args({ -1, 1 })->Args({ -1, 2 });
-#endif
 BENCHMARK_MAIN();
 
 #ifdef MAIN_MAIN
