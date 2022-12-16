@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 #cmake files
 build/
+
+#vs code files
+.vscode
