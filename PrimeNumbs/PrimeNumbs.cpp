@@ -90,7 +90,72 @@ static void from0_to2pow16plus1(benchmark::internal::Benchmark* b) {
 	}
 #endif
 }
-BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16plus1)
+
+static void from0_to2pow16_brute_quart1(benchmark::internal::Benchmark* b) {
+	for (int i = 0; i < 16384; i++)
+		b->Args({ i, 0 });
+}
+static void from0_to2pow16_brute_quart2(benchmark::internal::Benchmark* b) {
+	for (int i = 16384; i < 32769; i++)
+		b->Args({ i, 0 });
+}
+static void from0_to2pow16_brute_quart3(benchmark::internal::Benchmark* b) {
+	for (int i = 32769; i <= 49152; i++)
+		b->Args({ i, 0 });
+}
+static void from0_to2pow16_brute_quart4(benchmark::internal::Benchmark* b) {
+	for (int i = 49152; i <= 65537; i++)
+		b->Args({ i, 0 });
+}
+
+static void from0_to2pow16_miller_quart1(benchmark::internal::Benchmark* b) {
+	for (int i = 0; i < 16384; i++)
+		b->Args({ i, 1 });
+}
+static void from0_to2pow16_miller_quart2(benchmark::internal::Benchmark* b) {
+	for (int i = 16384; i < 32769; i++)
+		b->Args({ i, 1 });
+}
+static void from0_to2pow16_miller_quart3(benchmark::internal::Benchmark* b) {
+	for (int i = 32769; i <= 49152; i++)
+		b->Args({ i, 1 });
+}
+static void from0_to2pow16_miller_quart4(benchmark::internal::Benchmark* b) {
+	for (int i = 49152; i <= 65537; i++)
+		b->Args({ i, 1 });
+}
+
+static void from0_to2pow16_miller_opt_quart1(benchmark::internal::Benchmark* b) {
+	for (int i = 0; i < 16384; i++)
+		b->Args({ i, 2 });
+}
+static void from0_to2pow16_miller_opt_quart2(benchmark::internal::Benchmark* b) {
+	for (int i = 16384; i < 32769; i++)
+		b->Args({ i, 2 });
+}
+static void from0_to2pow16_miller_opt_quart3(benchmark::internal::Benchmark* b) {
+	for (int i = 32769; i <= 49152; i++)
+		b->Args({ i, 2 });
+}
+static void from0_to2pow16_miller_opt_quart4(benchmark::internal::Benchmark* b) {
+	for (int i = 49152; i <= 65537; i++)
+		b->Args({ i, 2 });
+}
+//BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16plus1);
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_brute_quart1)->ArgName("brute_2pow_0_16_qua1")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_brute_quart2)->ArgName("brute_2pow_0_16_qua2")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_brute_quart3)->ArgName("brute_2pow_0_16_qua3")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_brute_quart4)->ArgName("brute_2pow_0_16_qua4")->UseRealTime();
+
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_quart1)->ArgName("miller_2pow_0_16_qua1")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_quart2)->ArgName("miller_2pow_0_16_qua2")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_quart3)->ArgName("miller_2pow_0_16_qua3")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_quart4)->ArgName("miller_2pow_0_16_qua4")->UseRealTime();
+
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart1)->ArgName("miller_optim_2pow_0_16_qua1")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart2)->ArgName("miller_optim_2pow_0_16_qua2")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart3)->ArgName("miller_optim_2pow_0_16_qua3")->UseRealTime();
+BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16_miller_opt_quart4)->ArgName("miller_optim_2pow_0_16_qua4")->UseRealTime();
 //->Threads(8)
 ;
 #endif
