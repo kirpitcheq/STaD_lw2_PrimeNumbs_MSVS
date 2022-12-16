@@ -78,7 +78,7 @@ static void GenerateRandomFrom2Pow32To2Pow64(benchmark::internal::Benchmark *b)
 #define BENCH_A_GENERAL
 // USE DEFINE FOR TURN NEEDED BENCH
 unsigned long long start_from = 0;
-int threads_count = 16;
+int threads_count = 4;
 
 #define TO_16BIT_PLUS1 (1 << 16) + 1
 static void from0_to2pow16plus1(benchmark::internal::Benchmark *b)
@@ -101,7 +101,10 @@ static void from0_to2pow16plus1(benchmark::internal::Benchmark *b)
 }
 BENCHMARK(GBM_ItPrimeBench)->Apply(from0_to2pow16plus1)
 #ifdef BENCH_A_GENERAL
-	->Threads(threads_count)
+// ->ThreadRange(1, 8)
+	// ->Threads(threads_count)
+	// ->ThreadRange(1,threads_count)
+	->UseRealTime()
 #endif
 	;
 #endif
