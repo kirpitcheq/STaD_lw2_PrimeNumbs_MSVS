@@ -6,8 +6,6 @@
 #include "PrimeNumbsKPEq.h"
 #include "benchmark/benchmark.h"
 
-
-
 unsigned long long global_big_random = 0;
 
 static void GBM_ItPrimeBench(benchmark::State& state) {
